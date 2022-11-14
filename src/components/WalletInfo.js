@@ -21,26 +21,26 @@ export default function WalletInfo(props){
         <div className={`hidden ${!props.isHidden ? "nohidden" : ""}`}>
             <div className="container white-wrapper mt-5 text-center">
                       <div className="row py-4">
-                          <div className="col-lg-3 mt-3 d-flex flex-column justify-content-between">
-                              <h3 className="text-dark">{props.data[0].balanceNow.USDT}$</h3>
-                              <h5 className="text-primary">суммарный остаток</h5>
+                          <div className="row col-lg-3 mt-3 d-flex justify-content-between">
+                              <h3 className="text-dark col-lg-12 col-6 order-2 order-lg-1">{props.data[0].balanceNow.USDT}$</h3>
+                              <h6 className="text-primary col-lg-12 col-6 order-1 order-lg-2">суммарный остаток</h6>
                           </div>
-                          <div className="col-lg-3 mt-3 d-flex flex-column justify-content-between">
-                              <h3 className="text-dark">{props.data[0].wholetime.income.USDT} $</h3>
-                              <h5 className="text-primary">оборот за всё время</h5>
+                          <div className="row col-lg-3 mt-3 d-flex justify-content-between">
+                              <h3 className="text-dark col-lg-12 col-6 order-2 order-lg-1">{props.data[0].wholetime.income.USDT} $</h3>
+                              <h6 className="text-primary col-lg-12 col-6 order-1 order-lg-2">оборот за всё время</h6>
                           </div>
-                          <div className="col-lg-3 mt-3 d-flex flex-column justify-content-between">
-                              <h3 className="text-dark">{props.data[0].year.income.USDT} $</h3>
-                              <h5 className="text-primary">среднегодовой оборот</h5>
+                          <div className="row col-lg-3 mt-3 d-flex justify-content-between">
+                              <h3 className="text-dark col-lg-12 col-6 order-2 order-lg-1">{props.data[0].year.income.USDT} $</h3>
+                              <h6 className="text-primary col-lg-12 col-6 order-1 order-lg-2">среднегодовой оборот</h6>
                           </div>
-                          <div className="col-lg-3 mt-3 d-flex flex-column justify-content-between">
-                              <h3 className="text-dark">
+                          <div className="row col-lg-3 mt-3 d-flex justify-content-between">
+                              <h3 className="text-dark col-lg-12 col-6 order-2 order-lg-1">
                                 {props.data[0].banned ? '100%' : '0%'}
                               </h3>
-                              <div className="speedometer-wrapper">
-                                  {/* датчик в % */}
-                              </div>
-                              <h5 className="text-primary">степень риска контрагента</h5>
+                              {/* <div className="speedometer-wrapper">
+                                  датчик в %
+                              </div> */}
+                              <h6 className="text-primary col-lg-12 col-6 order-1 order-lg-2">степень риска контрагента</h6>
                           </div>
                       </div>
                   </div>

@@ -38,7 +38,7 @@ export default function Header() {
                             </ul>
                         </div> */}
                         <Navbar expand="lg" bg="transparent" variant="dark">
-                            <Container className='justify-content-center'>
+                            <Container className='justify-content-end'>
                                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                                 <Navbar.Collapse id="basic-navbar-nav" className=''>
                                 <Nav className="justify-content-end">
