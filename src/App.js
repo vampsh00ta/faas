@@ -12,7 +12,7 @@ import React from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 
-const DOMEN_SERVER = 'http://37.144.244.116:8000/api/getWalletInfo?wallet=';
+const DOMEN_SERVER = 'http://127.0.0.1:8000/api/getWalletInfo?wallet=' ?? 'http://37.144.244.116:8000/api/getWalletInfo?wallet=';
 const testwallet = '0xce479Ff6fDdC5E162861375E0A230357c101F22e'
 
 
@@ -23,141 +23,141 @@ function App() {
   const [walletNumber, setWalletNumber] = useState('')
   const [isLoading, setLoading] = useState(false)
   const [isHidden, setHidden] = useState(true)
-  // const [walletData, setWalletData] = useState([])
+  const [walletData, setWalletData] = useState([])
 
-  const walletData = [
-    {   "balanceNow":{
-      "ETH":0.000159846271935,
-      "A":11.1,
-      "MANA":5.723914651186343,
-      "USDT":500.0,
-      "BNT":3.095369e-12
-   },
-   "banned":false,
-   "month":{
+//   const walletData = [
+//     {   "balanceNow":{
+//       "ETH":0.000159846271935,
+//       "A":11.1,
+//       "MANA":5.723914651186343,
+//       "USDT":500.0,
+//       "BNT":3.095369e-12
+//    },
+//    "banned":false,
+//    "month":{
       
-   },
-   "year":{
-      "income":{
-         "ETH":30.04900925181983,
-         "USDT":2457.542963,
-         "DTRC":161207.09241903663,
-         "STM":8170.000000000004,
-         "DTX":1825.0,
-         "WETH":0.840889592477488,
-         "FTM":2000.0,
-         "RCN":1000.0,
-         "STORM":10000.0,
-         "LGO":5e-08,
-         "ENG":1e-08,
-         "OMG":10.0,
-         "ETR":100.0,
-         "аNTOK":1.0,
-         "CNN":6411421.37035957,
-         "CS":7.1137769226e-08,
-         "UFR":28575.35972831,
-         "betbeb.com":88888.0,
-         "CAT":1008575.9884067404,
-         "A":11.1,
-         "AZ":8888.0,
-         "FC24":10000.0,
-         "ATL":3045.711419,
-         "DTC":26109.7175809,
-         "SNM":2126.9436793,
-         "tripus.io":5e-13,
-         "UBEX":34000.0,
-         "blockwell.ai KYC Casper Token":100.0,
-         "LPT":2.307387250125189,
-         "BIT":20000.0,
-         "VIN":7.77,
-         "LUCD | play2live.io":777.0
-      },
-      "outcome":{
-         "ETH":26.088481266135478,
-         "DTX":1825.0,
-         "BNT":284.36265696091294,
-         "USDT":880.0,
-         "CNN":6411421.37035957,
-         "CS":7.1137769226e-08,
-         "CRV":1.0,
-         "NOTICE":1e-18,
-         "STM":2730.0,
-         "CAT":1008575.9884067404,
-         "ETR":10.0,
-         "AZ":8888.0,
-         "FTM":2000.0,
-         "SNM":2126.9436793,
-         "LGO":5e-08,
-         "LPT":2.307387250125189,
-         "ATL":3045.711419,
-         "UBEX":34000.0,
-         "DTC":26109.7175809,
-         "BIT":20000.0,
-         "PNS":8.008135e-12
-      }
-   },
-   "wholetime":{
-      "income":{
-         "ETH":30.04900925181983,
-         "USDT":2457.542963,
-         "DTRC":161207.09241903663,
-         "STM":8170.000000000004,
-         "DTX":1825.0,
-         "WETH":0.840889592477488,
-         "FTM":2000.0,
-         "RCN":1000.0,
-         "STORM":10000.0,
-         "LGO":5e-08,
-         "ENG":1e-08,
-         "OMG":10.0,
-         "ETR":100.0,
-         "аNTOK":1.0,
-         "CNN":6411421.37035957,
-         "CS":7.1137769226e-08,
-         "UFR":28575.35972831,
-         "betbeb.com":88888.0,
-         "CAT":1008575.9884067404,
-         "A":11.1,
-         "AZ":8888.0,
-         "FC24":10000.0,
-         "ATL":3045.711419,
-         "DTC":26109.7175809,
-         "SNM":2126.9436793,
-         "tripus.io":5e-13,
-         "UBEX":34000.0,
-         "blockwell.ai KYC Casper Token":100.0,
-         "LPT":2.307387250125189,
-         "BIT":20000.0,
-         "VIN":7.77,
-         "LUCD | play2live.io":777.0
-      },
-      "outcome":{
-         "ETH":26.088481266135478,
-         "DTX":1825.0,
-         "BNT":284.36265696091294,
-         "USDT":880.0,
-         "CNN":6411421.37035957,
-         "CS":7.1137769226e-08,
-         "CRV":1.0,
-         "NOTICE":1e-18,
-         "STM":2730.0,
-         "CAT":1008575.9884067404,
-         "ETR":10.0,
-         "AZ":8888.0,
-         "FTM":2000.0,
-         "SNM":2126.9436793,
-         "LGO":5e-08,
-         "LPT":2.307387250125189,
-         "ATL":3045.711419,
-         "UBEX":34000.0,
-         "DTC":26109.7175809,
-         "BIT":20000.0,
-         "PNS":8.008135e-12
-      }
-   }
-}
-  ]
-  console.log(walletData)
+//    },
+//    "year":{
+//       "income":{
+//          "ETH":30.04900925181983,
+//          "USDT":2457.542963,
+//          "DTRC":161207.09241903663,
+//          "STM":8170.000000000004,
+//          "DTX":1825.0,
+//          "WETH":0.840889592477488,
+//          "FTM":2000.0,
+//          "RCN":1000.0,
+//          "STORM":10000.0,
+//          "LGO":5e-08,
+//          "ENG":1e-08,
+//          "OMG":10.0,
+//          "ETR":100.0,
+//          "аNTOK":1.0,
+//          "CNN":6411421.37035957,
+//          "CS":7.1137769226e-08,
+//          "UFR":28575.35972831,
+//          "betbeb.com":88888.0,
+//          "CAT":1008575.9884067404,
+//          "A":11.1,
+//          "AZ":8888.0,
+//          "FC24":10000.0,
+//          "ATL":3045.711419,
+//          "DTC":26109.7175809,
+//          "SNM":2126.9436793,
+//          "tripus.io":5e-13,
+//          "UBEX":34000.0,
+//          "blockwell.ai KYC Casper Token":100.0,
+//          "LPT":2.307387250125189,
+//          "BIT":20000.0,
+//          "VIN":7.77,
+//          "LUCD | play2live.io":777.0
+//       },
+//       "outcome":{
+//          "ETH":26.088481266135478,
+//          "DTX":1825.0,
+//          "BNT":284.36265696091294,
+//          "USDT":880.0,
+//          "CNN":6411421.37035957,
+//          "CS":7.1137769226e-08,
+//          "CRV":1.0,
+//          "NOTICE":1e-18,
+//          "STM":2730.0,
+//          "CAT":1008575.9884067404,
+//          "ETR":10.0,
+//          "AZ":8888.0,
+//          "FTM":2000.0,
+//          "SNM":2126.9436793,
+//          "LGO":5e-08,
+//          "LPT":2.307387250125189,
+//          "ATL":3045.711419,
+//          "UBEX":34000.0,
+//          "DTC":26109.7175809,
+//          "BIT":20000.0,
+//          "PNS":8.008135e-12
+//       }
+//    },
+//    "wholetime":{
+//       "income":{
+//          "ETH":30.04900925181983,
+//          "USDT":2457.542963,
+//          "DTRC":161207.09241903663,
+//          "STM":8170.000000000004,
+//          "DTX":1825.0,
+//          "WETH":0.840889592477488,
+//          "FTM":2000.0,
+//          "RCN":1000.0,
+//          "STORM":10000.0,
+//          "LGO":5e-08,
+//          "ENG":1e-08,
+//          "OMG":10.0,
+//          "ETR":100.0,
+//          "аNTOK":1.0,
+//          "CNN":6411421.37035957,
+//          "CS":7.1137769226e-08,
+//          "UFR":28575.35972831,
+//          "betbeb.com":88888.0,
+//          "CAT":1008575.9884067404,
+//          "A":11.1,
+//          "AZ":8888.0,
+//          "FC24":10000.0,
+//          "ATL":3045.711419,
+//          "DTC":26109.7175809,
+//          "SNM":2126.9436793,
+//          "tripus.io":5e-13,
+//          "UBEX":34000.0,
+//          "blockwell.ai KYC Casper Token":100.0,
+//          "LPT":2.307387250125189,
+//          "BIT":20000.0,
+//          "VIN":7.77,
+//          "LUCD | play2live.io":777.0
+//       },
+//       "outcome":{
+//          "ETH":26.088481266135478,
+//          "DTX":1825.0,
+//          "BNT":284.36265696091294,
+//          "USDT":880.0,
+//          "CNN":6411421.37035957,
+//          "CS":7.1137769226e-08,
+//          "CRV":1.0,
+//          "NOTICE":1e-18,
+//          "STM":2730.0,
+//          "CAT":1008575.9884067404,
+//          "ETR":10.0,
+//          "AZ":8888.0,
+//          "FTM":2000.0,
+//          "SNM":2126.9436793,
+//          "LGO":5e-08,
+//          "LPT":2.307387250125189,
+//          "ATL":3045.711419,
+//          "UBEX":34000.0,
+//          "DTC":26109.7175809,
+//          "BIT":20000.0,
+//          "PNS":8.008135e-12
+//       }
+//    }
+// }
+//   ]
+  // console.log(walletData)
 
   const postWallet = event => {
     setHidden(false);
@@ -165,10 +165,10 @@ function App() {
     event.preventDefault();
     console.log(walletNumber)
     setTimeout(() => {
-      axios.get(DOMEN_SERVER+testwallet) // +walletNumber
+      axios.get(DOMEN_SERVER+walletNumber) // +testwallet
       .then(res => {
         console.log(res);
-        // setWalletData(res);
+        setWalletData(res);
         setLoading(false);
       })
       .catch(err => {console.log(err);setLoading(false);})
@@ -196,7 +196,7 @@ function App() {
                         </div>
                     </div>
                   </div>
-                    {isLoading ? <LoadingSpinner /> : <WalletInfo isHidden={isHidden} data={walletData}/>}
+                    {isLoading ? <LoadingSpinner /> : walletData.map(data => (<WalletInfo key={data} isHidden={isHidden} data={data}/>))}
               </div>
           </div>
       </div>
