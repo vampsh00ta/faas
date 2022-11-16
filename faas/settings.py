@@ -32,13 +32,24 @@ SECRET_KEY = 'django-insecure-xye#w)nsnk14^(*@y2vi$rq7nl(36(-io=w_2jhjh=^$rsoy^r
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = True
 ALLOWED_HOSTS = ["*"]
 CORS_ORIGIN_WHITELIST = [
     'http://127.0.0.1:3000',
     'http://127.0.0.1:8000',
 
+]
+CORS_ALLOW_HEADERS = [
+"accept",
+"accept-encoding",
+"authorization",
+"content-type",
+"dnt",
+"origin",
+"user-agent",
+"x-csrftoken",
+"x-requested-with",
 ]
 CORS_ALLOW_METHODS = [
     "DELETE",

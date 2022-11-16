@@ -15,6 +15,7 @@ import axios from 'axios';
 const DOMEN_SERVER = 'http://127.0.0.1:8000/api/getWalletInfo?wallet=' ?? 'http://37.144.244.116:8000/api/getWalletInfo?wallet=';
 const testwallet = '0xce479Ff6fDdC5E162861375E0A230357c101F22e'
 
+// axios.defaults.withCredentials = true;
 
 
 
@@ -24,6 +25,7 @@ function App() {
   const [isLoading, setLoading] = useState(false)
   const [isHidden, setHidden] = useState(true)
   const [walletData, setWalletData] = useState([])
+  const [errMsg, setErrMsg] = useState('')
 
 //   const walletData = [
 //     {   "balanceNow":{
@@ -165,13 +167,17 @@ function App() {
     event.preventDefault();
     console.log(walletNumber)
     setTimeout(() => {
-      axios.get(DOMEN_SERVER+walletNumber) // +testwallet
+      axios.get(DOMEN_SERVER+walletNumber,{
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        }
+      }) // +testwallet
       .then(res => {
         console.log(res);
         setWalletData(res);
         setLoading(false);
       })
-      .catch(err => {console.log(err);setLoading(false);})
+      .catch(err => {console.log(err);setLoading(false);setErrMsg('Кошелек не найден')})
     }, 2000)
   }
 
@@ -196,7 +202,7 @@ function App() {
                         </div>
                     </div>
                   </div>
-                    {isLoading ? <LoadingSpinner /> : walletData.map(data => (<WalletInfo key={data} isHidden={isHidden} data={data}/>))}
+                    {isLoading ? <LoadingSpinner /> : errMsg ? <h4 className='text-dark mt-3 text-center'>{errMsg}</h4> : walletData.map(data => (<WalletInfo key={data} isHidden={isHidden} data={data}/>))}
               </div>
           </div>
       </div>

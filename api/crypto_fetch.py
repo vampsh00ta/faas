@@ -161,7 +161,7 @@ class EthModule(object):
         wallet = wallet.lower()
         result_turnover = {
             'balanceNow': self.getTokens(wallet),
-            'banned': self.isBanned(wallet),
+            'banned': False,
             'month':{},
             'year':{},
             'wholetime':{}
