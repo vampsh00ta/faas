@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import  os
 from pathlib import Path
 import environ
+from celery.schedules import crontab
+
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,7 +34,7 @@ SECRET_KEY = 'django-insecure-xye#w)nsnk14^(*@y2vi$rq7nl(36(-io=w_2jhjh=^$rsoy^r
 DEBUG = True
 
 CORS_ORIGIN_ALLOW_ALL = True
-ALLOWED_HOSTS = ["http://127.0.0.1:8000","http://127.0.0.1:3000"]
+ALLOWED_HOSTS = ["*"]
 CORS_ORIGIN_WHITELIST = [
     'http://127.0.0.1:3000',
     'http://127.0.0.1:8000',
@@ -62,7 +66,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'api',
     'rest_framework',
-    'corsheaders'
+    'corsheaders',
+    'celery',
+    'django_celery_beat'
+
 ]
 
 MIDDLEWARE = [
@@ -102,8 +109,11 @@ WSGI_APPLICATION = 'faas.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'HOST':env('HOST'),
+        'NAME':env('NAME'),
+        'USER': env('USER'),
+        'PORT':env('PORT')
     }
 }
 
@@ -149,6 +159,14 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #Celery
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Europe/London'
+
+from datetime import timedelta
+
+
+
+
 
 CELERY_BROKER_URL ='redis://localhost:6379/0'
 #Crypto settigs

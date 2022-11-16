@@ -6,6 +6,7 @@ from datetime import datetime
 from  django.conf import settings
 import re
 import aiohttp
+from .models import BannedWallet
 import asyncio
 from Crypto.Hash import keccak
 import time
@@ -30,7 +31,7 @@ class EthModule(object):
                 return await response.json()
         async with session.get(url=params[0]) as response:
             return await response.json()
-    async def req(self,wallet):
+    async def all_reqs(self,wallet):
         async with aiohttp.ClientSession() as session:
 
             self.transactions_txlist = await self.fetch(session,
@@ -44,11 +45,11 @@ class EthModule(object):
 
             self.tokens =await self.fetch(session,f'https://api.ethplorer.io/getAddressInfo/{wallet}?apiKey=freekey')
 
-            self.dune_id =await self.fetch(session,self.dune_url, {'content-type': 'application/json','x-hasura-api-key':''},
-                                    # {"operationName": "GetResult", "variables": {"query_id": 5866, "parameters": []},"query": "query GetResult($query_id: Int!, $parameters: [Parameter!]!) {\n  get_result_v3(query_id: $query_id, parameters: $parameters) {\n    job_id\n    result_id\n    error_id\n    __typename\n  }\n}\n"})
-                                           {"operationName": "GetResult",
-                                            "variables": {"query_id": 5866, "parameters": []},
-                                            "query": "query GetResult($query_id: Int!, $parameters: [Parameter!]!) {\n  get_result_v3(query_id: $query_id, parameters: $parameters) {\n    job_id\n    result_id\n    error_id\n    __typename\n  }\n}\n"})
+            # self.dune_id =await self.fetch(session,self.dune_url, {'content-type': 'application/json','x-hasura-api-key':''},
+            #                         # {"operationName": "GetResult", "variables": {"query_id": 5866, "parameters": []},"query": "query GetResult($query_id: Int!, $parameters: [Parameter!]!) {\n  get_result_v3(query_id: $query_id, parameters: $parameters) {\n    job_id\n    result_id\n    error_id\n    __typename\n  }\n}\n"})
+            #                                {"operationName": "GetResult",
+            #                                 "variables": {"query_id": 5866, "parameters": []},
+            #                                 "query": "query GetResult($query_id: Int!, $parameters: [Parameter!]!) {\n  get_result_v3(query_id: $query_id, parameters: $parameters) {\n    job_id\n    result_id\n    error_id\n    __typename\n  }\n}\n"})
 
     def is_checksum_address(self,address):
         address = address.replace('0x', '')
@@ -56,7 +57,6 @@ class EthModule(object):
         address_hash = address_hash.update(address.lower().encode('utf-8')).hexdigest()
 
         for i in range(0, 40):
-            # The nth letter should be uppercase if the nth digit of casemap is 1
             if ((int(address_hash[i], 16) > 7 and address[i].upper() != address[i]) or
                     (int(address_hash[i], 16) <= 7 and address[i].lower() != address[i])):
                 return False
@@ -64,13 +64,10 @@ class EthModule(object):
 
     def is_address(self,address):
         if not re.match(r'^(0x)?[0-9a-f]{40}$', address, flags=re.IGNORECASE):
-            # Check if it has the basic requirements of an address
             return False
         elif re.match(r'^(0x)?[0-9a-f]{40}$', address) or re.match(r'^(0x)?[0-9A-F]{40}$', address):
-            # If it's all small caps or all all caps, return true
             return True
         else:
-            # Otherwise check each case
             return self.is_checksum_address(address)
     def make_api_url(self,module, action, **kwargs):
         url = self.BASE_URL + f"?module={module}&action={action}&apikey={self.API_KEY}"
@@ -80,9 +77,7 @@ class EthModule(object):
         return url
 
     def handle_response(self, response:dict,wallet:str):
-        # transactions_url = self.make_api_url(module="account", action=action, address=wallet, sort='desc')
-        #
-        # response = requests.get(transactions_url).json()['result']
+
         data = response['result']
 
         for tx in data:
@@ -137,19 +132,10 @@ class EthModule(object):
 
 
     def isBanned(self,wallet:str)->str:
-        # isBanned =   requests.get(self.dune_url,{'content-type': 'application/json'},{"operationName": "GetResult", "variables": {"query_id": 5866, "parameters": []},"query": "query GetResult($query_id: Int!, $parameters: [Parameter!]!) {\n  get_result_v3(query_id: $query_id, parameters: $parameters) {\n    job_id\n    result_id\n    error_id\n    __typename\n  }\n}\n"})
 
-        # result_id = isBanned.json()['data']['get_result_v3']['result_id']
-        result_id = self.dune_id['data']['get_result_v3']['result_id']
+        ban = BannedWallet.objects.filter(wallet = wallet)
         try:
-            response =requests.post(
-                url = self.dune_url,
-                headers={'content-type': 'application/json',"x-hasura-api-key":''},
-                # data = json.dumps({"operationName":"FindResultDataByResult","variables":{"result_id":result_id,"error_id":"00000000-0000-0000-0000-000000000000"},"query":"query FindResultDataByResult($result_id: uuid!, $error_id: uuid!) {\n  query_results(where: {id: {_eq: $result_id}}) {\n    id\n    job_id\n    runtime\n    generated_at\n    columns\n    __typename\n  }\n  query_errors(where: {id: {_eq: $error_id}}) {\n    id\n    job_id\n    runtime\n    message\n    metadata\n    type\n    generated_at\n    __typename\n  }\n  get_result_by_result_id(args: {want_result_id: $result_id}) {\n    data\n    __typename\n  }\n}\n"})
-                data = json.dumps({"operationName":"GetExecution","variables":{"execution_id":result_id,"query_id":5866,"parameters":[]},"query":"query GetExecution($execution_id: String!, $query_id: Int!, $parameters: [Parameter!]!) {\n  get_execution(\n    execution_id: $execution_id\n    query_id: $query_id\n    parameters: $parameters\n  ) {\n    execution_queued {\n      execution_id\n      execution_user_id\n      position\n      execution_type\n      created_at\n      __typename\n    }\n    execution_running {\n      execution_id\n      execution_user_id\n      execution_type\n      started_at\n      created_at\n      __typename\n    }\n    execution_succeeded {\n      execution_id\n      runtime_seconds\n      generated_at\n      columns\n      data\n      __typename\n    }\n    execution_failed {\n      execution_id\n      type\n      message\n      metadata {\n        line\n        column\n        hint\n        __typename\n      }\n      runtime_seconds\n      generated_at\n      __typename\n    }\n    __typename\n  }\n}\n"})
-                )
-            wallets = response.json()['data']['get_execution']['execution_succeeded']['data']
-            if list(filter(lambda d: d['banned_addresses'] == wallet, wallets)):
+            if ban:
                 return True
             return False
         except Exception as e:
@@ -170,7 +156,7 @@ class EthModule(object):
         return  result
     def getInfo(self,wallet:str = None)->dict:
         loop = asyncio.new_event_loop()
-        loop.run_until_complete(self.req(wallet))
+        loop.run_until_complete(self.all_reqs(wallet))
         txes = self.get_tx(wallet)
         wallet = wallet.lower()
         result_turnover = {
@@ -199,11 +185,3 @@ class EthModule(object):
         except Exception as e:
             return False
 eth = EthModule(settings.NET, settings.ETH_API_KEY,settings.API_ETH_BASE_URL)
-#
-# eth = EthModule('https://mainnet.infura.io/v3/2341e0371fbc4f008679f0e890a36044', 'RHCTJPJ811MD3QYBCQ134WBXQT6DSA7CXW','https://api.etherscan.io/api')
-# # loop = asyncio.get_event_loop()
-# # loop.run_until_complete(eth.req('0xce479Ff6fDdC5E162861375E0A230357c101F22e'))
-# start = time.time()
-# print(eth.getInfo('0xce479Ff6fDdC5E162861375E0A230357c101F22e'))
-# end = time.time()
-# print(end - start)
