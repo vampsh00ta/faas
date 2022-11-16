@@ -14,21 +14,30 @@ services:
       - redis
   db:
     image: postgres:14.0-alpine
+    restart: always
     volumes:
-      - ./postgres_data:/var/lib/postgres/data/
-    expose:
-      - 5432
+      - ./postgres_data:/var/lib/postgres/data
+    ports:
+      - "5432:5432"
     environment:
-      - POSTGRES_HOST_AUTH_METHOD=trust
       - POSTGRES_DB=${NAME}
-      - POSTGRES_USER=${USER}
+      - POSTGRES_USER=${SER}
+      - POSTGRES_PASSWORD=${PASSWORD}
       - POSTGRES_HOST=${HOST}
+
   redis:
     image: redis:alpine
+    restart: always
+    ports:
+      - "6379:6379"
   celery:
       build: .
-      command: celery -A faas worker -l info -E -B
+      restart: always
+      command: celery -A faas worker --loglevel=INFO -E -B
       volumes:
         - .:/usr/src/app/
       depends_on:
         - redis
+      links:
+        - redis
+

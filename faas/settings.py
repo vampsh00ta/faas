@@ -110,7 +110,7 @@ WSGI_APPLICATION = 'faas.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'HOST':env('HOST'),
+        'HOST':'localhost',
         'NAME':env('NAME'),
         'USER': env('USER'),
         'PORT':env('PORT')

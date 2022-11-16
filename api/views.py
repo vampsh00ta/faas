@@ -11,9 +11,8 @@ import  threading
 class GetWalletInfo(APIView):
     def get(self,request,format = None):
         wallet = request.GET["wallet"]
-        if wallet:
+        if crypto_fetch.eth.is_address(wallet):
             info = crypto_fetch.eth.getInfo(wallet)
-            print(info)
             if isinstance(info,dict):
 
                 return Response(info,status.HTTP_200_OK)
