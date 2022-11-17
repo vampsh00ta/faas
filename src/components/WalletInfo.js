@@ -16,7 +16,7 @@ import xrp from '../customImage/xrp.svg';
 import React from 'react';
 
 export default function WalletInfo(props){
-    console.log(props.data)
+    // console.log(props.data)
     return(
         <div className={`hidden ${!props.isHidden ? "nohidden" : ""}`}>
             <div className="container white-wrapper mt-5 text-center">

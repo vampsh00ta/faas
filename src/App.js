@@ -29,7 +29,7 @@ function App() {
 
   
 
-  console.log(walletData)
+  // console.log(walletData)
 
   const postWallet = event => {
     // setWalletData({"balanceNow":{"ETH":0.8587361588383972,"SOS":11661119.583700001,"NAO":17234242.15},"banned":false,"month":{},"year":{"income":{"ETH":17.6664941994941,"NAO":17234242.15,"SOS":11661119.5837},"outcome":{"ETH":22.244595496889755}},"wholetime":{"income":{"ETH":17.6664941994941,"NAO":17234242.15,"SOS":11661119.5837},"outcome":{"ETH":22.244595496889755}}});
@@ -37,15 +37,19 @@ function App() {
     setHidden(false);
     setLoading(true);
     event.preventDefault();
-    console.log(walletNumber)
+    // console.log(walletNumber)
     setTimeout(() => {
       axios.get(DOMEN_SERVER+walletNumber) // +testwallet
       .then(res => {
-        console.log(res);
+        // console.log(res);
         setWalletData(res);
         setLoading(false);
       })
-      .catch(err => {console.log(err);setLoading(false);setErrMsg('Кошелек не найден')})
+      .catch(err => {
+        // console.log(err);
+        setLoading(false);
+        setErrMsg('Кошелек не найден')
+      })
     }, 2000)
   }
 
@@ -71,7 +75,6 @@ function App() {
                     </div>
                   </div>
                     {isLoading ? <LoadingSpinner /> : errMsg ? <h4 className='text-dark mt-3 text-center'>{errMsg}</h4> : walletData ? <WalletInfo isHidden={isHidden} data={walletData}/> : <div/>}
-                    {/* errMsg ? <h4 className='text-dark mt-3 text-center'>{errMsg}</h4> : */}
               </div>
           </div>
       </div>
