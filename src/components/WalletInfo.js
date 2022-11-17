@@ -16,22 +16,37 @@ import xrp from '../customImage/xrp.svg';
 import React from 'react';
 
 export default function WalletInfo(props){
-    // console.log(props.data)
+    console.log(props.data)
     return(
         <div className={`hidden ${!props.isHidden ? "nohidden" : ""}`}>
             <div className="container white-wrapper mt-5 text-center">
                       <div className="row py-4">
                           <div className="row col-lg-3 mt-3 d-flex justify-content-between">
-                              <h3 className="text-dark col-lg-12 col-6 order-2 order-lg-1">{props.data.balanceNow.USDT}$</h3>
-                              <h6 className="text-primary col-lg-12 col-6 order-1 order-lg-2">суммарный остаток</h6>
+                            {
+                            props.data.balanceNow.USDT ? 
+                            <h3 className="text-dark col-lg-12 col-6 order-2 order-lg-1">{props.data.balanceNow.USDT} $</h3> 
+                            : 
+                            <h3 className="text-dark col-lg-12 col-6 order-2 order-lg-1">- $</h3>
+                            }
+                            <h6 className="text-primary col-lg-12 col-6 order-1 order-lg-2">суммарный остаток</h6>
                           </div>
                           <div className="row col-lg-3 mt-3 d-flex justify-content-between">
-                              <h3 className="text-dark col-lg-12 col-6 order-2 order-lg-1">{props.data.wholetime.income.USDT} $</h3>
-                              <h6 className="text-primary col-lg-12 col-6 order-1 order-lg-2">оборот за всё время</h6>
+                            {
+                                props.data.wholetime.income.USDT ? 
+                                <h3 className="text-dark col-lg-12 col-6 order-2 order-lg-1">{props.data.wholetime.income.USDT} $</h3> 
+                                : 
+                                <h3 className="text-dark col-lg-12 col-6 order-2 order-lg-1">- $</h3>
+                            }
+                            <h6 className="text-primary col-lg-12 col-6 order-1 order-lg-2">оборот за всё время</h6>
                           </div>
                           <div className="row col-lg-3 mt-3 d-flex justify-content-between">
-                              <h3 className="text-dark col-lg-12 col-6 order-2 order-lg-1">{props.data.year.income.USDT} $</h3>
-                              <h6 className="text-primary col-lg-12 col-6 order-1 order-lg-2">среднегодовой оборот</h6>
+                            {
+                                props.data.year.income.USDT ? 
+                                <h3 className="text-dark col-lg-12 col-6 order-2 order-lg-1">{props.data.year.income.USDT} $</h3> 
+                                : 
+                                <h3 className="text-dark col-lg-12 col-6 order-2 order-lg-1">- $</h3>
+                            }
+                            <h6 className="text-primary col-lg-12 col-6 order-1 order-lg-2">среднегодовой оборот</h6>
                           </div>
                           <div className="row col-lg-3 mt-3 d-flex justify-content-between">
                               <h3 className="text-dark col-lg-12 col-6 order-2 order-lg-1">

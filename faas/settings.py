@@ -12,10 +12,6 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import  os
 from pathlib import Path
 import environ
-from celery.schedules import crontab
-
-
-
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -32,24 +28,14 @@ SECRET_KEY = 'django-insecure-xye#w)nsnk14^(*@y2vi$rq7nl(36(-io=w_2jhjh=^$rsoy^r
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-CORS_ALLOW_CREDENTIALS = True
-CORS_ORIGIN_ALLOW_ALL = True
-ALLOWED_HOSTS = ["*"]
+
+CORS_ORIGIN_ALLOW_ALL = False
+#ALLOWED_HOSTS = ['*']
 CORS_ORIGIN_WHITELIST = [
     'http://127.0.0.1:3000',
     'http://127.0.0.1:8000',
-
-]
-CORS_ALLOW_HEADERS = [
-"accept",
-"accept-encoding",
-"authorization",
-"content-type",
-"dnt",
-"origin",
-"user-agent",
-"x-csrftoken",
-"x-requested-with",
+    'http://localhost:3000',
+    'http://localhost:8000',
 ]
 CORS_ALLOW_METHODS = [
     "DELETE",
@@ -62,10 +48,6 @@ CORS_ALLOW_METHODS = [
 
 # CORS_ALLOW_ALL_ORIGINS = True
 
-CSRF_TRUSTED_ORIGINS = [
-        'http://localhost:3000',
-        'http://localhost:8000'
-]
 # Application definition
 
 INSTALLED_APPS = [
@@ -77,21 +59,18 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'api',
     'rest_framework',
-    'corsheaders',
-    'celery',
-    'django_celery_beat'
-
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "corsheaders.middleware.CorsMiddleware",
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'faas.urls'
@@ -120,11 +99,8 @@ WSGI_APPLICATION = 'faas.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'HOST':'localhost',
-        'NAME':env('NAME'),
-        'USER': env('USER'),
-        'PORT':env('PORT')
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -170,14 +146,6 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #Celery
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TIMEZONE = 'Europe/London'
-
-from datetime import timedelta
-
-
-
-
 
 CELERY_BROKER_URL ='redis://localhost:6379/0'
 #Crypto settigs
