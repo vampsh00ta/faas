@@ -16,26 +16,26 @@ import tether from '../customImage/tether.svg';
 import React from 'react';
 
 export default function WalletInfo(props){
-    console.log(props.data[0])
+    console.log(props.data)
     return(
         <div className={`hidden ${!props.isHidden ? "nohidden" : ""}`}>
             <div className="container white-wrapper mt-5 text-center">
                       <div className="row py-4">
                           <div className="row col-lg-3 mt-3 d-flex justify-content-between">
-                              <h3 className="text-dark col-lg-12 col-6 order-2 order-lg-1">{props.data[0].balanceNow.USDT}$</h3>
+                              <h3 className="text-dark col-lg-12 col-6 order-2 order-lg-1">{props.data.balanceNow.USDT}$</h3>
                               <h6 className="text-primary col-lg-12 col-6 order-1 order-lg-2">суммарный остаток</h6>
                           </div>
                           <div className="row col-lg-3 mt-3 d-flex justify-content-between">
-                              <h3 className="text-dark col-lg-12 col-6 order-2 order-lg-1">{props.data[0].wholetime.income.USDT} $</h3>
+                              <h3 className="text-dark col-lg-12 col-6 order-2 order-lg-1">{props.data.wholetime.income.USDT} $</h3>
                               <h6 className="text-primary col-lg-12 col-6 order-1 order-lg-2">оборот за всё время</h6>
                           </div>
                           <div className="row col-lg-3 mt-3 d-flex justify-content-between">
-                              <h3 className="text-dark col-lg-12 col-6 order-2 order-lg-1">{props.data[0].year.income.USDT} $</h3>
+                              <h3 className="text-dark col-lg-12 col-6 order-2 order-lg-1">{props.data.year.income.USDT} $</h3>
                               <h6 className="text-primary col-lg-12 col-6 order-1 order-lg-2">среднегодовой оборот</h6>
                           </div>
                           <div className="row col-lg-3 mt-3 d-flex justify-content-between">
                               <h3 className="text-dark col-lg-12 col-6 order-2 order-lg-1">
-                                {props.data[0].banned ? '100%' : '0%'}
+                                {props.data.banned ? '100%' : '0%'}
                               </h3>
                               {/* <div className="speedometer-wrapper">
                                   датчик в %
@@ -60,15 +60,16 @@ export default function WalletInfo(props){
                                 <tbody>
                                 <tr className="table">
                                         <th scope="row"><img className="coin" src={ethereum} alt=""/>Ethereum</th>
-                                        <td>{props.data[0].balanceNow.ETH}</td>
-                                        <td>{props.data[0].wholetime.income.ETH}</td>
-                                        <td>{props.data[0].year.income.ETH}</td>
+                                        <td>{props.data.balanceNow.ETH}</td>
+                                        <td>{props.data.wholetime.income.ETH}</td>
+                                        <td>{props.data.year.income.ETH}</td>
                                     </tr>
                                     <tr className="table">
                                         <th scope="row"><img className="coin" src={tether} alt=""/>USDT</th>
-                                        <td>{props.data[0].balanceNow.USDT}</td>
-                                        <td>{props.data[0].wholetime.income.USDT}</td>
-                                        <td>{props.data[0].year.income.USDT}</td>
+                                        {props.data.balanceNow.USDT ? <td>{props.data.balanceNow.USDT}</td> : <td>no data</td>}
+                                        
+                                        <td>{props.data.wholetime.income.USDT}</td>
+                                        <td>{props.data.year.income.USDT}</td>
                                     </tr>
                                     {/* <tr className="table">
                                         <th scope="row"><img className="coin" src={bnb} alt=""/>BNB</th>
