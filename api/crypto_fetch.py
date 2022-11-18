@@ -12,7 +12,7 @@ from Crypto.Hash import keccak
 import time
 class EthModule(object):
     dune_url =  'https://core-hsr.dune.com/v1/graphql'
-
+    error = False
     TOKEN_VALUE = 10 ** 18
     USDT_VALUE = 10 ** 6
     transactions = dict()
@@ -33,23 +33,19 @@ class EthModule(object):
             return await response.json()
     async def all_reqs(self,wallet):
         async with aiohttp.ClientSession() as session:
+            try:
+                self.transactions_txlist = await self.fetch(session,
+                    self.make_api_url(module="account", action='txlist', address=wallet, sort='desc'))
 
-            self.transactions_txlist = await self.fetch(session,
-                self.make_api_url(module="account", action='txlist', address=wallet, sort='desc'))
+                self.transactions_tokentx =await self.fetch(session,
+                    self.make_api_url(module="account", action='tokentx', address=wallet, sort='desc'))
 
-            self.transactions_tokentx =await self.fetch(session,
-                self.make_api_url(module="account", action='tokentx', address=wallet, sort='desc'))
+                self.transactions_txlistinternal =await self.fetch(session,
+                    self.make_api_url(module="account", action='txlistinternal', address=wallet, sort='desc'))
 
-            self.transactions_txlistinternal =await self.fetch(session,
-                self.make_api_url(module="account", action='txlistinternal', address=wallet, sort='desc'))
-
-            self.tokens =await self.fetch(session,f'https://api.ethplorer.io/getAddressInfo/{wallet}?apiKey=freekey')
-
-            # self.dune_id =await self.fetch(session,self.dune_url, {'content-type': 'application/json','x-hasura-api-key':''},
-            #                         # {"operationName": "GetResult", "variables": {"query_id": 5866, "parameters": []},"query": "query GetResult($query_id: Int!, $parameters: [Parameter!]!) {\n  get_result_v3(query_id: $query_id, parameters: $parameters) {\n    job_id\n    result_id\n    error_id\n    __typename\n  }\n}\n"})
-            #                                {"operationName": "GetResult",
-            #                                 "variables": {"query_id": 5866, "parameters": []},
-            #                                 "query": "query GetResult($query_id: Int!, $parameters: [Parameter!]!) {\n  get_result_v3(query_id: $query_id, parameters: $parameters) {\n    job_id\n    result_id\n    error_id\n    __typename\n  }\n}\n"})
+                self.tokens =await self.fetch(session,f'https://api.ethplorer.io/getAddressInfo/{wallet}?apiKey=freekey')
+            except Exception as e:
+                self.error = True
 
     def is_checksum_address(self,address):
         address = address.replace('0x', '')
@@ -112,22 +108,24 @@ class EthModule(object):
         return  self.transactions
 
     def getTokens(self,wallet:str)->dict:
-        # response =requests.get(url = f'https://api.ethplorer.io/getAddressInfo/{wallet}?apiKey=freekey')
-        # handaled_response = response.json()
         handaled_response = self.tokens
 
         data = {
             'ETH':handaled_response['ETH']['balance']
         }
-        tokens = list(filter(lambda d: d['tokenInfo']['price'] != False, handaled_response['tokens']))
-        for token in tokens:
-            token_name = token['tokenInfo']['symbol']
-            if token_name == 'USDT':
-                token_balance = int(token['balance'])/self.USDT_VALUE
-            else:
-                token_balance = int(token['balance'])/self.TOKEN_VALUE
-            data[token_name] = token_balance
+        print(handaled_response,data)
+        try:
+            tokens = list(filter(lambda d: d['tokenInfo']['price'] != False, handaled_response['tokens']))
 
+            for token in tokens:
+                token_name = token['tokenInfo']['symbol']
+                if token_name == 'USDT':
+                    token_balance = int(token['balance'])/self.USDT_VALUE
+                else:
+                    token_balance = int(token['balance'])/self.TOKEN_VALUE
+                data[token_name] = token_balance
+        except:
+            pass
         return data
 
 
@@ -157,31 +155,43 @@ class EthModule(object):
     def getInfo(self,wallet:str = None)->dict:
         loop = asyncio.new_event_loop()
         loop.run_until_complete(self.all_reqs(wallet))
-        txes = self.get_tx(wallet)
-        wallet = wallet.lower()
         result_turnover = {
             'balanceNow': self.getTokens(wallet),
             'banned': self.isBanned(wallet),
-            'month':{},
-            'year':{},
-            'wholetime':{}
+            'month': {},
+            'year': {},
+            'wholetime': {}
         }
-        datenow = datetime.now()
-        result = {
-            'income':{},
-            'outcome':{},
-        }
-        try:
-            for tx in txes:
-                timestamp = txes[tx]['timeStamp']
-                date = datetime.fromtimestamp(int(timestamp))
-                if date > datenow - relativedelta(months=1):
-                    result_turnover['month'] = self.__add_to_turnover(result,txes,tx,wallet)
-                elif  date > datenow - relativedelta(months=12):
-                    result_turnover['year'] = self.__add_to_turnover(result, txes, tx, wallet)
-                elif date < datenow - relativedelta(months=12):
-                    result_turnover['wholetime'] = self.__add_to_turnover(result, txes, tx, wallet)
-            return result_turnover
-        except Exception as e:
-            return False
+        if not self.error:
+            txes = self.get_tx(wallet)
+            wallet = wallet.lower()
+
+            datenow = datetime.now()
+            result = {
+                'income': {},
+                'outcome': {},
+            }
+            try:
+                for tx in txes:
+                    timestamp = txes[tx]['timeStamp']
+                    date = datetime.fromtimestamp(int(timestamp))
+                    if date > datenow - relativedelta(months=1):
+                        result_turnover['month'] = self.__add_to_turnover(result, txes, tx, wallet)
+                    elif date > datenow - relativedelta(months=12):
+                        result_turnover['year'] = self.__add_to_turnover(result, txes, tx, wallet)
+                    elif date < datenow - relativedelta(months=12):
+                        result_turnover['wholetime'] = self.__add_to_turnover(result, txes, tx, wallet)
+                return result_turnover
+            except Exception as e:
+                return False
+        else:
+            {
+                'balanceNow': self.getTokens(wallet),
+                'banned': self.isBanned(wallet),
+                'month': 'smth went wrong',
+                'year': 'smth went wrong',
+                'wholetime': 'smth went wrong'
+            }
+
+
 eth = EthModule(settings.NET, settings.ETH_API_KEY,settings.API_ETH_BASE_URL)
