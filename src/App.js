@@ -13,6 +13,7 @@ import { useState } from 'react';
 import axios from 'axios';
 
 const DOMEN_SERVER = 'http://localhost:8000/api/getWalletInfo?format=json&wallet='
+
 const testwallet = '0xce479Ff6fDdC5E162861375E0A230357c101F22e'
 
 // axios.defaults.withCredentials = true;
@@ -28,6 +29,7 @@ function App() {
   const [errMsg, setErrMsg] = useState('')
 
   
+
 
   // console.log(walletData)
 
@@ -75,6 +77,7 @@ function App() {
                     </div>
                   </div>
                     {isLoading ? <LoadingSpinner /> : errMsg ? <h4 className='text-dark mt-3 text-center'>{errMsg}</h4> : walletData ? <WalletInfo isHidden={isHidden} data={walletData}/> : <div/>}
+
               </div>
           </div>
       </div>
