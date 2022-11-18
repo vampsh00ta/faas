@@ -23,8 +23,8 @@ export default function WalletInfo(props){
                       <div className="row py-4">
                           <div className="row col-lg-3 mt-3 d-flex justify-content-between">
                             {
-                            props.data.balanceNow.USDT ? 
-                            <h3 className="text-dark col-lg-12 col-6 order-2 order-lg-1">{props.data.balanceNow.USDT} $</h3> 
+                            props.data.data.balanceNow.USDT ? 
+                            <h3 className="text-dark col-lg-12 col-6 order-2 order-lg-1">{props.data.data.balanceNow.USDT} $</h3> 
                             : 
                             <h3 className="text-dark col-lg-12 col-6 order-2 order-lg-1">- $</h3>
                             }
@@ -32,8 +32,8 @@ export default function WalletInfo(props){
                           </div>
                           <div className="row col-lg-3 mt-3 d-flex justify-content-between">
                             {
-                                props.data.wholetime.income.USDT ? 
-                                <h3 className="text-dark col-lg-12 col-6 order-2 order-lg-1">{props.data.wholetime.income.USDT} $</h3> 
+                                props.data.data.wholetime.income.USDT ? 
+                                <h3 className="text-dark col-lg-12 col-6 order-2 order-lg-1">{props.data.data.wholetime.income.USDT} $</h3> 
                                 : 
                                 <h3 className="text-dark col-lg-12 col-6 order-2 order-lg-1">- $</h3>
                             }
@@ -41,8 +41,8 @@ export default function WalletInfo(props){
                           </div>
                           <div className="row col-lg-3 mt-3 d-flex justify-content-between">
                             {
-                                props.data.year.income.USDT ? 
-                                <h3 className="text-dark col-lg-12 col-6 order-2 order-lg-1">{props.data.year.income.USDT} $</h3> 
+                                props.data.data.year.income.USDT ? 
+                                <h3 className="text-dark col-lg-12 col-6 order-2 order-lg-1">{props.data.data.year.income.USDT} $</h3> 
                                 : 
                                 <h3 className="text-dark col-lg-12 col-6 order-2 order-lg-1">- $</h3>
                             }
@@ -50,7 +50,7 @@ export default function WalletInfo(props){
                           </div>
                           <div className="row col-lg-3 mt-3 d-flex justify-content-between">
                               <h3 className="text-dark col-lg-12 col-6 order-2 order-lg-1">
-                                {props.data.banned ? '100%' : '0%'}
+                                {props.data.data.banned ? '100%' : '0%'}
                               </h3>
                               {/* <div className="speedometer-wrapper">
                                   датчик в %
@@ -75,57 +75,57 @@ export default function WalletInfo(props){
                                 <tbody>
                                 <tr className="table">
                                         <th scope="row"><img className="coin" src={ethereum} alt=""/>Ethereum</th>
-                                        {props.data.balanceNow.ETH ? <td>{props.data.balanceNow.ETH}</td> : <td>no data</td>}
-                                        {props.data.wholetime.income.ETH ? <td>{props.data.wholetime.income.ETH}</td> : <td>no data</td>}
-                                        {props.data.year.income.ETH ? <td>{props.data.year.income.ETH}</td> : <td>no data</td>}
+                                        {props.data.data.balanceNow.ETH ? <td>{props.data.data.balanceNow.ETH}</td> : <td>no data</td>}
+                                        {props.data.data.wholetime.income.ETH ? <td>{props.data.data.wholetime.income.ETH}</td> : <td>no data</td>}
+                                        {props.data.data.year.income.ETH ? <td>{props.data.data.year.income.ETH}</td> : <td>no data</td>}
                                     </tr>
                                     <tr className="table">
                                         <th scope="row"><img className="coin" src={tether} alt=""/>USDT</th>
-                                        {props.data.balanceNow.USDT ? <td>{props.data.balanceNow.USDT}</td> : <td>no data</td>}
-                                        {props.data.wholetime.income.USDT ? <td>{props.data.wholetime.income.USDT}</td> : <td>no data</td>}
-                                        {props.data.year.income.USDT ? <td>{props.data.year.income.USDT}</td> : <td>no data</td>}
+                                        {props.data.data.balanceNow.USDT ? <td>{props.data.data.balanceNow.USDT}</td> : <td>no data</td>}
+                                        {props.data.data.wholetime.income.USDT ? <td>{props.data.data.wholetime.income.USDT}</td> : <td>no data</td>}
+                                        {props.data.data.year.income.USDT ? <td>{props.data.data.year.income.USDT}</td> : <td>no data</td>}
                                     </tr>
                                     <tr className="table">
                                         <th scope="row"><img className="coin" src={bnb} alt=""/>BNB</th>
-                                        {props.data.balanceNow.BNB ? <td>{props.data.balanceNow.BNB}</td> : <td>no data</td>}
-                                        {props.data.wholetime.income.BNB ? <td>{props.data.wholetime.income.BNB}</td> : <td>no data</td>}
-                                        {props.data.year.income.BNB ? <td>{props.data.year.income.BNB}</td> : <td>no data</td>}
+                                        {props.data.data.balanceNow.BNB ? <td>{props.data.data.balanceNow.BNB}</td> : <td>no data</td>}
+                                        {props.data.data.wholetime.income.BNB ? <td>{props.data.data.wholetime.income.BNB}</td> : <td>no data</td>}
+                                        {props.data.data.year.income.BNB ? <td>{props.data.data.year.income.BNB}</td> : <td>no data</td>}
                                     </tr>
                                     <tr className="table">
                                         <th scope="row"><img className="coin" src={bitcoin} alt=""/>Bitcoin</th>
-                                        {props.data.balanceNow.BTC ? <td>{props.data.balanceNow.BTC}</td> : <td>no data</td>}
-                                        {props.data.wholetime.income.BTC ? <td>{props.data.wholetime.income.BTC}</td> : <td>no data</td>}
-                                        {props.data.year.income.BTC ? <td>{props.data.year.income.BTC}</td> : <td>no data</td>}
+                                        {props.data.data.balanceNow.BTC ? <td>{props.data.data.balanceNow.BTC}</td> : <td>no data</td>}
+                                        {props.data.data.wholetime.income.BTC ? <td>{props.data.data.wholetime.income.BTC}</td> : <td>no data</td>}
+                                        {props.data.data.year.income.BTC ? <td>{props.data.data.year.income.BTC}</td> : <td>no data</td>}
                                     </tr>
                                     <tr className="table">
                                         <th scope="row"><img className="coin" src={cardano} alt=""/>Cardano</th>
-                                        {props.data.balanceNow.ADA ? <td>{props.data.balanceNow.ADA}</td> : <td>no data</td>}
-                                        {props.data.wholetime.income.ADA ? <td>{props.data.wholetime.income.ADA}</td> : <td>no data</td>}
-                                        {props.data.year.income.ADA ? <td>{props.data.year.income.ADA}</td> : <td>no data</td>}
+                                        {props.data.data.balanceNow.ADA ? <td>{props.data.data.balanceNow.ADA}</td> : <td>no data</td>}
+                                        {props.data.data.wholetime.income.ADA ? <td>{props.data.data.wholetime.income.ADA}</td> : <td>no data</td>}
+                                        {props.data.data.year.income.ADA ? <td>{props.data.data.year.income.ADA}</td> : <td>no data</td>}
                                     </tr>
                                     <tr className="table">
                                         <th scope="row"><img className="coin" src={dogecoin} alt=""/>Dogecoin</th>
-                                        {props.data.balanceNow.DOGE ? <td>{props.data.balanceNow.DOGE}</td> : <td>no data</td>}
-                                        {props.data.wholetime.income.DOGE ? <td>{props.data.wholetime.income.DOGE}</td> : <td>no data</td>}
-                                        {props.data.year.income.DOGE ? <td>{props.data.year.income.DOGE}</td> : <td>no data</td>}
+                                        {props.data.data.balanceNow.DOGE ? <td>{props.data.data.balanceNow.DOGE}</td> : <td>no data</td>}
+                                        {props.data.data.wholetime.income.DOGE ? <td>{props.data.data.wholetime.income.DOGE}</td> : <td>no data</td>}
+                                        {props.data.data.year.income.DOGE ? <td>{props.data.data.year.income.DOGE}</td> : <td>no data</td>}
                                     </tr>
                                     <tr className="table">
                                         <th scope="row"><img className="coin" src={polkadot} alt=""/>Polkadot</th>
-                                        {props.data.balanceNow.DOT ? <td>{props.data.balanceNow.DOT}</td> : <td>no data</td>}
-                                        {props.data.wholetime.income.DOT ? <td>{props.data.wholetime.income.DOT}</td> : <td>no data</td>}
-                                        {props.data.year.income.DOT ? <td>{props.data.year.income.DOT}</td> : <td>no data</td>}
+                                        {props.data.data.balanceNow.DOT ? <td>{props.data.data.balanceNow.DOT}</td> : <td>no data</td>}
+                                        {props.data.data.wholetime.income.DOT ? <td>{props.data.data.wholetime.income.DOT}</td> : <td>no data</td>}
+                                        {props.data.data.year.income.DOT ? <td>{props.data.data.year.income.DOT}</td> : <td>no data</td>}
                                     </tr>
                                     <tr className="table">
                                         <th scope="row"><img className="coin" src={polygon} alt=""/>Polygon</th>
-                                        {props.data.balanceNow.MATIC ? <td>{props.data.balanceNow.MATIC}</td> : <td>no data</td>}
-                                        {props.data.wholetime.income.MATIC ? <td>{props.data.wholetime.income.MATIC}</td> : <td>no data</td>}
-                                        {props.data.year.income.MATIC ? <td>{props.data.year.income.MATIC}</td> : <td>no data</td>}
+                                        {props.data.data.balanceNow.MATIC ? <td>{props.data.data.balanceNow.MATIC}</td> : <td>no data</td>}
+                                        {props.data.data.wholetime.income.MATIC ? <td>{props.data.data.wholetime.income.MATIC}</td> : <td>no data</td>}
+                                        {props.data.data.year.income.MATIC ? <td>{props.data.data.year.income.MATIC}</td> : <td>no data</td>}
                                     </tr>
                                     <tr className="table">
                                         <th scope="row"><img className="coin" src={xrp} alt=""/>XRP</th>
-                                        {props.data.balanceNow.XRP ? <td>{props.data.balanceNow.XRP}</td> : <td>no data</td>}
-                                        {props.data.wholetime.income.XRP ? <td>{props.data.wholetime.income.XRP}</td> : <td>no data</td>}
-                                        {props.data.year.income.XRP ? <td>{props.data.year.income.XRP}</td> : <td>no data</td>}
+                                        {props.data.data.balanceNow.XRP ? <td>{props.data.data.balanceNow.XRP}</td> : <td>no data</td>}
+                                        {props.data.data.wholetime.income.XRP ? <td>{props.data.data.wholetime.income.XRP}</td> : <td>no data</td>}
+                                        {props.data.data.year.income.XRP ? <td>{props.data.data.year.income.XRP}</td> : <td>no data</td>}
                                     </tr>
                                 </tbody>
                             </table>
