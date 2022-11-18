@@ -12,7 +12,7 @@ import React from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 
-const DOMEN_SERVER = 'http://localhost:8000/api/getWalletInfo?format=json&wallet='
+const DOMEN_SERVER = 'http://localhost:8000/api/getWalletInfo/?format=json&wallet='
 const testwallet = '0xce479Ff6fDdC5E162861375E0A230357c101F22e'
 
 // axios.defaults.withCredentials = true;
